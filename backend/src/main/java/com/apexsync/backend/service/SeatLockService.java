@@ -34,7 +34,6 @@ public class SeatLockService {
         String lockKey = LOCK_KEY_PREFIX + request.seatId();
         String lockValue = "user:" + request.userId();
 
-        // 1. Attempt atomic Redis lock with 10-minute TTL
         Boolean acquired = redisTemplate.opsForValue()
                 .setIfAbsent(lockKey, lockValue, Duration.ofMinutes(10));
 
@@ -42,7 +41,6 @@ public class SeatLockService {
             throw new IllegalStateException("Seat is already locked or sold by another user.");
         }
 
-        // 2. Fetch entities for database persistence
         Seat seat = seatRepository.findById(request.seatId())
                 .orElseThrow(() -> new IllegalArgumentException("Seat not found"));
         Event event = eventRepository.findById(request.eventId())
@@ -50,7 +48,6 @@ public class SeatLockService {
         User user = userRepository.findById(request.userId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        // 3. Create HELD reservation record in PostgreSQL
         Reservation reservation = Reservation.builder()
                 .user(user)
                 .event(event)

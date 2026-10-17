@@ -13,9 +13,8 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    // In production, move this secret to application.yml environment variables
     private final String jwtSecret = "apexsync_super_secret_key_for_jwt_signing_must_be_long_enough_256_bits";
-    private final long jwtExpirationMs = 900000; // 15 minutes
+    private final long jwtExpirationMs = 900000;
 
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));

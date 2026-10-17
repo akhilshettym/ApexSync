@@ -35,8 +35,7 @@ public class AuthService {
             throw new IllegalArgumentException("Invalid email or password");
         }
 
-        String token = tokenProvider.generateToken(user.getEmail(), user.getRole().name()); // wait, user.getRole().name()
-        // Corrected:
+        String token = tokenProvider.generateToken(user.getEmail(), user.getRole().name());
         String jwtToken = tokenProvider.generateToken(user.getEmail(), user.getRole().name());
 
         return new AuthDto.AuthResponse(jwtToken, user.getEmail(), user.getRole().name());

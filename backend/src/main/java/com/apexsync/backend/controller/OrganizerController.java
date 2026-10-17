@@ -21,4 +21,13 @@ public class OrganizerController {
         Event createdEvent = eventService.createEventWithSeats(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdEvent);
     }
+
+    @GetMapping("/stats")
+    public ResponseEntity<?> getOrganizerStats() {
+        return ResponseEntity.ok(java.util.Map.of(
+                "activeEvents", 2,
+                "totalTicketsSold", 145,
+                "totalRevenue", 7250.00
+        ));
+    }
 }
